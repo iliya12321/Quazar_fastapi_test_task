@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query, status, HTTPException
+from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 
 from app.api.schemas.users import (
@@ -14,6 +15,21 @@ users_router = APIRouter(prefix="/users", tags=["users"])
 
 async def get_user_service(uow: IUnitOfWork = Depends(UnitOfWork)) -> UserService:
     return UserService(uow)
+
+
+@users_router.get(
+    "/info",
+    status_code=status.HTTP_200_OK,
+)
+async def info(
+    user_service: UserService = Depends(get_user_service),
+) -> JSONResponse:
+    count_users_registered_last_seven_days: int = (
+        await user_service.count_users_registered_last_seven_days()
+    )
+    return {
+        "count_users_registered_last_seven_days": count_users_registered_last_seven_days,
+    }
 
 
 @users_router.get(

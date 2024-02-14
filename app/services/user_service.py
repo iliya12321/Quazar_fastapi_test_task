@@ -48,3 +48,8 @@ class UserService:
         async with self.uow:
             await self.uow.user.delete_by_id(user_id)
             await self.uow.commit()
+
+    async def count_users_registered_last_seven_days(self) -> int:
+        async with self.uow:
+            count: int = await self.uow.user.count_users_registered_last_seven_days()
+            return count

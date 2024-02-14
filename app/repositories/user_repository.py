@@ -23,3 +23,13 @@ class UserRepository(Repository):
             select(User.username).order_by(func.length(User.username).desc()).limit(5)
         )
         return longest_usernames.scalars().all()
+
+    async def email_domain_share(self, domain: str):
+        total_users = await self.session.execute(select(func.count(User.id)))
+        percent_domain = await self.session.execute(
+            select(func.count(User.email)).where(User.email.like(f"%@{domain}"))
+        )
+        try:
+            return round((percent_domain.scalar() / total_users.scalar()) * 100, 0)
+        except ZeroDivisionError:
+            return 0

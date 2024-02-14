@@ -58,3 +58,8 @@ class UserService:
         async with self.uow:
             longest_usernames: list = await self.uow.user.top_five_longest_usernames()
             return longest_usernames
+
+    async def email_domain_share(self, domain: str) -> int:
+        async with self.uow:
+            percent_domain: int = await self.uow.user.email_domain_share(domain)
+            return percent_domain

@@ -22,15 +22,18 @@ async def get_user_service(uow: IUnitOfWork = Depends(UnitOfWork)) -> UserServic
     status_code=status.HTTP_200_OK,
 )
 async def info(
+    domain: str = Query(default="yandex.ru"),
     user_service: UserService = Depends(get_user_service),
 ) -> JSONResponse:
     count_users_registered_last_seven_days: int = (
         await user_service.count_users_registered_last_seven_days()
     )
     top_five_longest_usernames: list = await user_service.top_five_longest_usernames()
+    email_domain_share: int = await user_service.email_domain_share(domain)
     return {
         "count_users_registered_last_seven_days": count_users_registered_last_seven_days,
         "top_five_longest_usernames": top_five_longest_usernames,
+        "email_domain_share": email_domain_share,
     }
 
 

@@ -42,3 +42,9 @@ class UserService:
             user_to_return = UserFromDB.model_validate(updated_user)
             await self.uow.commit()
             return user_to_return
+
+    async def delete_user(self, user_id: int):
+        await self.get_user(user_id)
+        async with self.uow:
+            await self.uow.user.delete_by_id(user_id)
+            await self.uow.commit()

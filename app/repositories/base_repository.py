@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import insert, select, update
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -15,6 +15,14 @@ class AbstractRepository(ABC):
 
     @abstractmethod
     async def find_all(self, page: int, size: int) -> list:
+        raise NotImplementedError
+
+    @abstractmethod
+    async def update_one(self, instance_id: int, data: dict):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def delete_by_id(self, instance_id: int):
         raise NotImplementedError
 
 
@@ -53,3 +61,8 @@ class Repository(AbstractRepository):
             .returning(self.model)
         )
         return res.scalar_one()
+
+    async def delete_by_id(self, instance_id: int):
+        await self.session.execute(
+            delete(self.model).where(self.model.id == instance_id)
+        )

@@ -15,6 +15,19 @@ async def get_user_service(uow: IUnitOfWork = Depends(UnitOfWork)) -> UserServic
     return UserService(uow)
 
 
+@users_router.get(
+    "/{user_id}",
+    response_model=UserFromDB,
+    status_code=status.HTTP_200_OK,
+)
+async def get_user(
+    user_id: int,
+    user_service: UserService = Depends(get_user_service),
+):
+    user = await user_service.get_user(user_id)
+    return user
+
+
 @users_router.post(
     "",
     response_model=UserFromDB,

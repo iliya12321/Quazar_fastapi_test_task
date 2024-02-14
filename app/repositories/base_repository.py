@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -21,3 +21,9 @@ class Repository(AbstractRepository):
             insert(self.model).values(**data).returning(self.model)
         )
         return res.scalar_one()
+
+    async def find_by_id(self, instance_id: int):
+        result = await self.session.execute(
+            select(self.model).where(self.model.id == instance_id)
+        )
+        return result.scalar_one_or_none()

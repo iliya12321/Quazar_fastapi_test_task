@@ -33,3 +33,12 @@ class UserService:
                     status_code=404, detail=f"User with id {user_id} not found"
                 )
             return UserFromDB.model_validate(user)
+
+    async def update_user(self, user_id: int, user: UserCreate) -> UserFromDB:
+        await self.get_user(user_id)
+        user_dict: dict = user.model_dump()
+        async with self.uow:
+            updated_user = await self.uow.user.update_one(user_id, user_dict)
+            user_to_return = UserFromDB.model_validate(updated_user)
+            await self.uow.commit()
+            return user_to_return

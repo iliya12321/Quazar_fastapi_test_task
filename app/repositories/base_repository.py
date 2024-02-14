@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from sqlalchemy import insert, select
+from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -44,3 +44,12 @@ class Repository(AbstractRepository):
             select(self.model).where(self.model.id == instance_id)
         )
         return result.scalar_one_or_none()
+
+    async def update_one(self, instance_id: int, data: dict):
+        res = await self.session.execute(
+            update(self.model)
+            .where(self.model.id == instance_id)
+            .values(**data)
+            .returning(self.model)
+        )
+        return res.scalar_one()

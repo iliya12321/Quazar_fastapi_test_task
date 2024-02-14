@@ -1,0 +1,1 @@
+# Quazar_fastapi_test_task

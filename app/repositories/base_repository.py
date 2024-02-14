@@ -9,6 +9,14 @@ class AbstractRepository(ABC):
     async def add_one(self, data: dict):
         raise NotImplementedError
 
+    @abstractmethod
+    async def find_by_id(self, instance_id: int):
+        raise NotImplementedError
+
+    @abstractmethod
+    async def find_all(self, page: int, size: int) -> list:
+        raise NotImplementedError
+
 
 class Repository(AbstractRepository):
     model = None
@@ -21,6 +29,15 @@ class Repository(AbstractRepository):
             insert(self.model).values(**data).returning(self.model)
         )
         return res.scalar_one()
+
+    async def find_all(self, page: int, size: int) -> list:
+        result = await self.session.execute(
+            select(self.model)
+            .order_by(self.model.id)
+            .limit(size)
+            .offset((page - 1) * size)
+        )
+        return result.scalars().all()
 
     async def find_by_id(self, instance_id: int):
         result = await self.session.execute(

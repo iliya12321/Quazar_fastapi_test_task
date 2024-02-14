@@ -15,6 +15,11 @@ class UserService:
             await self.uow.commit()
             return user_to_return
 
+    async def get_users(self, page: int, size: int) -> list[UserFromDB]:
+        async with self.uow:
+            users: list = await self.uow.user.find_all(page, size)
+            return [UserFromDB.model_validate(user) for user in users]
+
     async def get_user(self, user_id: int) -> UserFromDB | None:
         if user_id <= 0:
             raise HTTPException(

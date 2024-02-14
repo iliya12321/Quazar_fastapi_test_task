@@ -1,10 +1,11 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, Query, status, HTTPException
 from sqlalchemy.exc import IntegrityError
 
 from app.api.schemas.users import (
     UserCreate,
     UserFromDB,
 )
+from app.core.constants.integer_constants import INTEGER_CONSTANTS
 from app.services.user_service import UserService
 from app.utils.unitofwork import IUnitOfWork, UnitOfWork
 
@@ -13,6 +14,27 @@ users_router = APIRouter(prefix="/users", tags=["users"])
 
 async def get_user_service(uow: IUnitOfWork = Depends(UnitOfWork)) -> UserService:
     return UserService(uow)
+
+
+@users_router.get(
+    "",
+    response_model=list[UserFromDB],
+    status_code=status.HTTP_200_OK,
+)
+async def get_users(
+    page: int = Query(
+        default=INTEGER_CONSTANTS["page_default"],
+        description="Номер страницы",
+        gt=0,
+    ),
+    size: int = Query(
+        default=INTEGER_CONSTANTS["size_default"],
+        description="Размер страницы",
+        gt=0,
+    ),
+    user_service: UserService = Depends(get_user_service),
+):
+    return await user_service.get_users(page, size)
 
 
 @users_router.get(

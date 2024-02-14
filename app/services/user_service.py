@@ -53,3 +53,8 @@ class UserService:
         async with self.uow:
             count: int = await self.uow.user.count_users_registered_last_seven_days()
             return count
+
+    async def top_five_longest_usernames(self) -> list:
+        async with self.uow:
+            longest_usernames: list = await self.uow.user.top_five_longest_usernames()
+            return longest_usernames

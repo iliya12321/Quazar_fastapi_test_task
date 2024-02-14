@@ -17,3 +17,9 @@ class UserRepository(Repository):
             )
         )
         return count.scalar()
+
+    async def top_five_longest_usernames(self) -> list:
+        longest_usernames = await self.session.execute(
+            select(User.username).order_by(func.length(User.username).desc()).limit(5)
+        )
+        return longest_usernames.scalars().all()

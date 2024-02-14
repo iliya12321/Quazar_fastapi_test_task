@@ -27,8 +27,10 @@ async def info(
     count_users_registered_last_seven_days: int = (
         await user_service.count_users_registered_last_seven_days()
     )
+    top_five_longest_usernames: list = await user_service.top_five_longest_usernames()
     return {
         "count_users_registered_last_seven_days": count_users_registered_last_seven_days,
+        "top_five_longest_usernames": top_five_longest_usernames,
     }
 
 

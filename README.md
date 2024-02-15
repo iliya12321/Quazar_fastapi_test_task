@@ -154,12 +154,12 @@ python main.py
 
 The API exposes the following endpoints:
 
-- `GET /api/users/info`: [Features](#features) Info edpoint
-- `GET /api/users/`: Retrieve a list of users with pagination.
-- `POST /api/users/`: Create a new user.
-- `GET /api/users/{user_id}`: Retrieve a specific user.
-- `PUT /api/users/{user_id}`: Update a specific user.
-- `DELETE /api/users/{user_id}`: Delete a specific user.
+- `GET /api/v1/users/info`: [Features](#features) Info edpoint
+- `GET /api/v1/users/`: Retrieve a list of users with pagination.
+- `POST /api/v1/users/`: Create a new user.
+- `GET /api/v1/users/{user_id}`: Retrieve a specific user.
+- `PUT /api/v1/users/{user_id}`: Update a specific user.
+- `DELETE /api/v1/users/{user_id}`: Delete a specific user.
 
 ## Testing the API with Swagger UI
 

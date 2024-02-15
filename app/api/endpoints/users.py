@@ -10,7 +10,7 @@ from app.core.constants.integer_constants import INTEGER_CONSTANTS
 from app.services.user_service import UserService
 from app.utils.unitofwork import IUnitOfWork, UnitOfWork
 
-users_router = APIRouter(prefix="/users", tags=["users"])
+users_router = APIRouter(prefix="/api/v1/users", tags=["users"])
 
 
 async def get_user_service(uow: IUnitOfWork = Depends(UnitOfWork)) -> UserService:

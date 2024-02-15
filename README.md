@@ -14,7 +14,7 @@ It provides basic CRUD (Create, Read, Update, Delete) operations for users.
   - [Running the Application](#running-the-application)
   - [API Endpoints](#api-endpoints)
 - [Testing with SwaggerUI](#testing-the-api-with-swagger-ui)
-- [Project author](#Project author)
+- [Project author](#project-author)
 
 ## Features
 

@@ -132,6 +132,12 @@ DB_PASS=<postgres password>
 DB_NAME=<db name>
 ```
 
+8. Apply migration:
+
+```bash
+alembic upgrade head
+```
+
 ## Usage
 
 ### Running the Application
@@ -155,8 +161,8 @@ python main.py
 The API exposes the following endpoints:
 
 - `GET /api/v1/users/info`: [Features](#features) Info edpoint
-- `GET /api/v1/users/`: Retrieve a list of users with pagination.
-- `POST /api/v1/users/`: Create a new user.
+- `GET /api/v1/users`: Retrieve a list of users with pagination.
+- `POST /api/v1/users`: Create a new user.
 - `GET /api/v1/users/{user_id}`: Retrieve a specific user.
 - `PUT /api/v1/users/{user_id}`: Update a specific user.
 - `DELETE /api/v1/users/{user_id}`: Delete a specific user.

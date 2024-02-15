@@ -67,8 +67,7 @@ async def get_user(
     user_id: int,
     user_service: UserService = Depends(get_user_service),
 ):
-    user = await user_service.get_user(user_id)
-    return user
+    return await user_service.get_user(user_id)
 
 
 @users_router.post(

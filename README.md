@@ -52,7 +52,7 @@ Quazar_fastapi_test_task/
 - `alembic`: Database migration files (if used).
 - `app`: Contains the main application code.
   - `api`: Contains API endpoints for tasks and users.
-    - `endpoints`: Task and user API endpoints.
+    - `endpoints`: User API endpoints.
     - `schemas`: Pydantic models for request and response.
   - `core`: Core constants and configurations.
   - `db`: Database configuration and models.
